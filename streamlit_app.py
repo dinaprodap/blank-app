@@ -67,3 +67,4 @@ if st.button('Calcular'):
     )
 
     st.plotly_chart(fig)
+    
