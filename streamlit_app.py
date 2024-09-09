@@ -19,8 +19,8 @@ def calcular_carga_suporte(carga, suporte):
 st.title('Calculadora de Carga e Suporte')
 
 # Entradas do usuário
-carga = st.number_input('Digite o valor da carga:', min_value=0.0, format="%.2f")
-suporte = st.number_input('Digite o valor do suporte:', min_value=0.0, format="%.2f")
+carga = st.number_input('Digite o valor da carga:', min_value=0.0, format="%.0f")
+suporte = st.number_input('Digite o valor do suporte:', min_value=0.0, format="%.0f")
 
 # Botão para calcular
 if st.button('Calcular'):
@@ -29,9 +29,9 @@ if st.button('Calcular'):
     # Exibição dos resultados
     st.subheader('Resultado')
     if suficiente:
-        st.success(f"O suporte é suficiente para a carga. Há uma margem de segurança de {diferenca:.2f} unidades.")
+        st.success(f"O suporte é suficiente para a carga. Há uma margem de segurança de {diferenca:.0f} unidades. Um novo manejo deverá ser realizado em 10 dias")
     else:
-        st.error(f"O suporte não é suficiente para a carga. Reduza a carga em {diferenca:.2f} unidades.")
+        st.error(f"O suporte não é suficiente para a carga. Reduza a carga em {diferenca:.0f} unidades.")
     
     # Tabela com os dados
     resultados_df = pd.DataFrame({
