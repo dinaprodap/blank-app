@@ -39,9 +39,31 @@ if st.button('Calcular'):
     st.dataframe(resultados_df)
 
     # Gráfico de barras
-    st.subheader('Visualização')
-    chart_data = pd.DataFrame({
-        'Tipo': ['Carga', 'Suporte'],
-        'Valor': [carga, suporte]
-    })
-    st.bar_chart(chart_data.set_index('Tipo'))
+    fig = go.Figure()
+
+        # Adiciona as barras de sombra (mais grossas e cinzas)
+        fig.add_trace(go.Bar(
+            x=['Carga', 'Suporte'],
+            y=[carga, suporte],
+            name='Sombra',
+            marker_color='lightgrey',
+            width=0.5
+        ))
+
+        # Adiciona as barras coloridas (mais finas) na frente
+        fig.add_trace(go.Bar(
+            x=['Carga', 'Suporte'],
+            y=[carga, suporte],
+            name='Valor',
+            marker_color=['#FF4B4B', '#4BB543'],
+            width=0.3
+        ))
+
+        fig.update_layout(
+            barmode='overlay',
+            title='Comparação entre Carga e Suporte',
+            xaxis_title='Tipo',
+            yaxis_title='Valor'
+        )
+
+        st.plotly_chart(fig)
