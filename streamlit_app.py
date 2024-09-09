@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import plotly.graph_objects as go
+import plotly as go
 
 # Configuração da página
 st.set_page_config(page_title="Calculadora de Carga e Suporte", layout="wide")
