@@ -45,7 +45,7 @@ if st.button('Calcular'):
     st.write(f"Número de animais por hectare suportado pelo pasto: {animais_por_hectare_suportado:.0f}")
     
     if animais_por_hectare_atual > animais_por_hectare_suportado:
-        st.warning(f"O número de animais está inadequado para o pasto. Há um excesso de {animais_por_hectare_atual - animais_por_hectare_suportado:.0f} animais por hectare.")
+        st.warning(f"O número de animais está inadequado para o pasto. Há um excesso de {(animais_por_hectare_atual * area_efetiva) - (animais_por_hectare_suportado * area_efetiva):.0f} animais no pasto.")
         st.write("Recomendação: Considere reduzir o número de animais ou aumentar a área de pastagem para evitar sobrecarga e degradação do pasto.")
     elif animais_por_hectare_atual < animais_por_hectare_suportado:
         st.success(f"O número de animais está adequado ao pasto. Há uma margem para adicionar até {animais_por_hectare_suportado - animais_por_hectare_atual:.0f} animais por hectare ou você poderá manter estes animais neste pasto por 60 dias.")
