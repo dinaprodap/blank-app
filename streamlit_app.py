@@ -22,7 +22,7 @@ def calcular_capacidade_suporte(num_animais, peso_medio, area_efetiva, altura_me
     return capacidade_suporte, carga_atual, animais_por_hectare_atual, animais_por_hectare_suportado
 
 # Título da aplicação
-st.title('Calculadora de Capacidade de Suporte de Pastagem')
+st.title('Calculadora de Carga e Suporte')
 
 # Entradas do usuário
 num_animais = st.number_input('Número de animais:', min_value=1, value=1)
