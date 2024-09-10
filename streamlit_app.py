@@ -37,7 +37,7 @@ if st.button('Calcular'):
     # Exibição dos resultados
     st.subheader('Resultado')
     st.success(f"A capacidade de suporte estimada é de {capacidade_suporte:.2f} UA/ha.")
-    st.info(f"A carga animal atual é de {carga_atual:.2f} UA/ha.")
+    st.info(f"A carga animal atual é de {carga_atual:.2f} UA.")
     
     # Comparação e insight
     st.subheader('Análise da Lotação')
