@@ -36,13 +36,13 @@ if st.button('Calcular'):
     
     # Exibição dos resultados
     st.subheader('Resultado')
-    st.success(f"A capacidade de suporte estimada é de {capacidade_suporte:.2f} UA/ha.")
-    st.info(f"A carga animal atual é de {carga_atual:.2f} UA/ha.")
+    st.success(f"A capacidade de suporte estimada é de {capacidade_suporte:.0f} UA/ha.")
+    st.info(f"A carga animal atual é de {carga_atual:.0f} UA.")
     
     # Comparação e insight
     st.subheader('Análise da Lotação')
-    st.write(f"Número atual de animais por hectare: {animais_por_hectare_atual:.2f}")
-    st.write(f"Número de animais por hectare suportado pelo pasto: {animais_por_hectare_suportado:.2f}")
+    st.write(f"Número atual de animais por hectare: {animais_por_hectare_atual:.0f}")
+    st.write(f"Número de animais por hectare suportado pelo pasto: {animais_por_hectare_suportado:.0f}")
     
     if animais_por_hectare_atual > animais_por_hectare_suportado:
         st.warning(f"O número de animais está inadequado para o pasto. Há um excesso de {animais_por_hectare_atual - animais_por_hectare_suportado:.2f} animais por hectare.")
