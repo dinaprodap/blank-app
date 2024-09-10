@@ -27,8 +27,8 @@ st.title('Calculadora de Capacidade de Suporte de Pastagem')
 # Entradas do usuário
 num_animais = st.number_input('Número de animais:', min_value=1, value=1)
 peso_medio = st.number_input('Peso médio dos animais (kg):', min_value=0.0, value=450.0)
-area_efetiva = st.number_input('Área efetiva do pasto (ha):', min_value=0.1, value=1.0)
-altura_media = st.number_input('Altura média do pasto (cm):', min_value=1.0, value=20.0)
+area_efetiva = st.number_input('Área efetiva do pasto (ha):', min_value=0.1, value=12.0)
+altura_media = st.number_input('Altura média do pasto (cm):', min_value=1.0, value=25.0)
 
 # Botão para calcular
 if st.button('Calcular'):
