@@ -7,7 +7,7 @@ st.set_page_config(page_title="Calculadora de Capacidade de Suporte de Pastagem"
 
 def calcular_capacidade_suporte(num_animais, peso_medio, area_efetiva, altura_media):
     # Ajuste na produção de MS por hectare
-    producao_ms_por_cm = 80  # kg de MS por cm de altura por hectare
+    producao_ms_por_cm = 100  # kg de MS por cm de altura por hectare
     
     # Cálculo da produção de MS baseada na altura média do pasto
     producao_ms = producao_ms_por_cm * altura_media * area_efetiva
