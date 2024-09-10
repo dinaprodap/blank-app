@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # Configuração da página
-st.set_page_config(page_title="Calculadora de Capacidade de Suporte de Pastagem", layout="wide")
+st.set_page_config(page_title="Calculadora de Carga e Suporte", layout="wide")
 
 def calcular_capacidade_suporte(num_animais, peso_medio, area_efetiva, altura_media):
     # Ajuste na produção de MS por hectare
