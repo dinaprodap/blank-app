@@ -55,7 +55,7 @@ if st.button('Calcular'):
 
     # Tabela com os dados
     resultados_df = pd.DataFrame({
-        'Descrição': ['Capacidade de Suporte', 'Carga Animal Atual', 'Animais/ha Atual', 'Animais/ha Suportado'],
+        'Descrição': ['Carga Unidade Animal', 'Animais/ha', 'Animais/ha Suportado'],
         'Valor': [f"{capacidade_suporte:.2f} UA/ha", f"{carga_atual:.2f} UA/ha", 
                   f"{animais_por_hectare_atual:.2f}", f"{animais_por_hectare_suportado:.2f}"]
     })
