@@ -24,7 +24,7 @@ def calcular_suporte_ha(fertilidade_selecionada, area_efetiva):
 # Novo cálculo da capacidade de suporte
 def suporte_total(producao_total, peso_medio):
     # Cálculo de suporte com base na fórmula fornecida
-    suporte_kg_ms = (producao_total - 4500) / 365 / 0,025  # SUPORTE = (fertilidade_solo – 4500kg) / 365 / 2,5% PV de consumo animal
+    suporte_kg_ms = (producao_total - 4500) / 365 / 0.025  # SUPORTE = (fertilidade_solo – 4500kg) / 365 / 2,5% PV de consumo animal
     # Cálculo de UA por hectare suportada com base no peso médio dos animais
     suporte_total_fazenda = suporte_kg_ms / peso_medio
     return suporte_total_fazenda
