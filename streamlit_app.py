@@ -26,7 +26,7 @@ def suporte_total(producao_total, peso_medio):
     # Cálculo de suporte com base na fórmula fornecida
     suporte_kg_ms = (producao_total - 4500) / 365 / 0.025  # SUPORTE = (fertilidade_solo – 4500kg) / 365 / 2,5% PV de consumo animal
     # Cálculo de UA por hectare suportada com base no peso médio dos animais
-    suporte_total_fazenda = suporte_kg_ms / peso_medio
+    suporte_total_fazenda = suporte_kg_ms
     return suporte_total_fazenda
 
 # Título da aplicação
@@ -34,7 +34,7 @@ st.title('Calculadora de Carga e Suporte')
 
 # Entradas do usuário
 num_animais = st.number_input('Número de animais:', min_value=1, value=1)
-peso_medio = st.number_input('Peso médio dos animais (kg):', min_value=0.0, value=450.0)
+peso_medio = st.number_input('Peso médio dos animais (kg):', min_value=0.0, value=550.0)
 area_efetiva = st.number_input('Área efetiva (ha):', min_value=0.1, value=1.0)
 
 # Caixa de seleção para escolher o potencial de produção baseado na fertilidade do solo
@@ -55,11 +55,14 @@ if st.button('Calcular'):
     carga_atual = (num_animais * peso_medio)
     animais_por_hectare_atual = num_animais / area_efetiva
 
+producao_total = calcular_suporte_ha(fertilidade_selecionada, area_efetiva)
+
     # Exibição dos resultados
     st.subheader('Resultado')
-    st.success(f"A produção total do solo (fertilidade) é de {fertilidade_solo:.2f} toneladas de MS.")
+    st.success(f"A produção total do solo (fertilidade) é de {producao_total :.2f} toneladas de MS.")
     st.info(f"A carga animal atual é de {carga_atual:.2f} KG.")
     
+    insight = carga_atual / suporte_total_fazenda
     # Comparação e insight
     st.subheader('Análise da Lotação')
     st.write(f"O valor do suporte total é de {suporte_total_fazenda:.2f} animais/ha")
