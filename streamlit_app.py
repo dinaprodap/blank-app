@@ -5,21 +5,29 @@ import plotly.graph_objects as go
 # Configuração da página
 st.set_page_config(page_title="Calculadora de Carga e Suporte", layout="wide")
 
-def calcular_capacidade_suporte(num_animais, peso_medio, area_efetiva, altura_media):
-    # Ajuste na produção de MS por hectare
-    producao_ms_por_cm = 100  # kg de MS por cm de altura por hectare
-    
-    # Cálculo da produção de MS baseada na altura média do pasto
-    producao_ms = producao_ms_por_cm * altura_media * area_efetiva
-    
-    consumo_anual_ua = 18000  # kg de MS por ano para 1 UA
-    capacidade_suporte = producao_ms / consumo_anual_ua
-    
-    carga_atual = (num_animais * peso_medio) / 450  # 450 kg = 1 UA
-    animais_por_hectare_atual = num_animais / area_efetiva
-    animais_por_hectare_suportado = (capacidade_suporte * area_efetiva * 450) / peso_medio
-    
-    return capacidade_suporte, carga_atual, animais_por_hectare_atual, animais_por_hectare_suportado
+# Função para calcular a produção de suporte com base na fertilidade selecionada
+def calcular_suporte_ha(fertilidade_selecionada, area_efetiva):
+    producao_por_ha = 0
+    if fertilidade_selecionada == "Baixa fertilidade":
+        producao_por_ha = 6  # ton/ha
+    elif fertilidade_selecionada == "Fertilidade razoável":
+        producao_por_ha = 7  # ton/ha
+    elif fertilidade_selecionada == "Média fertilidade":
+        producao_por_ha = 8  # ton/ha
+    elif fertilidade_selecionada == "Alta fertilidade":
+        producao_por_ha = 9  # ton/ha
+
+    # Cálculo da produção total baseada na área efetiva
+    producao_total = producao_por_ha * area_efetiva
+    return producao_total
+
+# Novo cálculo da capacidade de suporte
+def suporte_total(producao_total, peso_medio):
+    # Cálculo de suporte com base na fórmula fornecida
+    suporte_kg_ms = (producao_total - 4500) / 365 / 0,025  # SUPORTE = (fertilidade_solo – 4500kg) / 365 / 2,5% PV de consumo animal
+    # Cálculo de UA por hectare suportada com base no peso médio dos animais
+    suporte_total_fazenda = suporte_kg_ms / peso_medio
+    return suporte_total_fazenda
 
 # Título da aplicação
 st.title('Calculadora de Carga e Suporte')
@@ -27,55 +35,47 @@ st.title('Calculadora de Carga e Suporte')
 # Entradas do usuário
 num_animais = st.number_input('Número de animais:', min_value=1, value=1)
 peso_medio = st.number_input('Peso médio dos animais (kg):', min_value=0.0, value=450.0)
-area_efetiva = st.number_input('Área efetiva do pasto (ha):', min_value=0.1, value=1.0)
-altura_media = st.number_input('Altura média do pasto (cm):', min_value=1.0, value=20.0)
+area_efetiva = st.number_input('Área efetiva (ha):', min_value=0.1, value=1.0)
+
+# Caixa de seleção para escolher o potencial de produção baseado na fertilidade do solo
+fertilidade_selecionada = st.selectbox(
+    'Selecione a fertilidade do solo:',
+    ['Baixa fertilidade', 'Fertilidade razoável', 'Média fertilidade', 'Alta fertilidade']
+)
 
 # Botão para calcular
 if st.button('Calcular'):
-    capacidade_suporte, carga_atual, animais_por_hectare_atual, animais_por_hectare_suportado = calcular_capacidade_suporte(num_animais, peso_medio, area_efetiva, altura_media)
+    # Cálculo da fertilidade do solo
+    fertilidade_solo = calcular_suporte_ha(fertilidade_selecionada, area_efetiva)
     
+    # Cálculo da capacidade de suporte
+    suporte_total_fazenda = suporte_total(fertilidade_solo, peso_medio)
+    
+    # Cálculo da carga atual em UA e animais por hectare
+    carga_atual = (num_animais * peso_medio)
+    animais_por_hectare_atual = num_animais / area_efetiva
+
     # Exibição dos resultados
     st.subheader('Resultado')
-    st.success(f"A capacidade de suporte estimada é de {capacidade_suporte:.0f} UA/ha.")
-    st.info(f"A carga animal atual é de {carga_atual:.0f} UA.")
+    st.success(f"A produção total do solo (fertilidade) é de {fertilidade_solo:.2f} toneladas de MS.")
+    st.info(f"A carga animal atual é de {carga_atual:.2f} KG.")
     
     # Comparação e insight
     st.subheader('Análise da Lotação')
-    st.write(f"Número atual de animais por hectare: {animais_por_hectare_atual:.0f}")
-    st.write(f"Número de animais por hectare suportado pelo pasto: {animais_por_hectare_suportado:.0f}")
+    st.write(f"O valor do suporte total é de {suporte_total_fazenda:.2f} animais/ha")
     
-    if animais_por_hectare_atual > animais_por_hectare_suportado:
-        st.warning(f"O número de animais está inadequado para o pasto. Há um excesso de {(animais_por_hectare_atual * area_efetiva) - (animais_por_hectare_suportado * area_efetiva):.0f} animais no pasto.")
+    if animais_por_hectare_atual > suporte_total_fazenda:
+        st.warning(f"O número de animais está inadequado para o pasto. Há um excesso de {(animais_por_hectare_atual * area_efetiva) - (suporte_total_fazenda * area_efetiva):.2f} animais no pasto.")
         st.write("Recomendação: Considere reduzir o número de animais ou aumentar a área de pastagem para evitar sobrecarga e degradação do pasto.")
-    elif animais_por_hectare_atual < animais_por_hectare_suportado:
-        st.success(f"O número de animais está adequado ao pasto. Há uma margem para adicionar até {animais_por_hectare_suportado - animais_por_hectare_atual:.0f} animais por hectare ou você poderá manter estes animais neste pasto por 60 dias.")
+    elif animais_por_hectare_atual < suporte_total_fazenda:
+        st.success(f"O número de animais está adequado ao pasto. Há uma margem para adicionar até {suporte_total_fazenda - animais_por_hectare_atual:.2f} animais por hectare ou você poderá manter estes animais neste pasto por mais tempo.")
         st.write("Recomendação: O pasto está sendo subutilizado. Você pode considerar aumentar o número de animais ou reduzir a área de pastagem para otimizar o uso do recurso.")
     else:
         st.success("O número de animais está perfeitamente adequado à capacidade de suporte do pasto.")
-
+    
     # Tabela com os dados
     resultados_df = pd.DataFrame({
-        'Descrição': ['Carga Unidade Animal', 'Animais/ha', 'Animais/ha Suportado'],
-        'Valor': [f"{carga_atual:.0f} UA/ha", 
-                  f"{animais_por_hectare_atual:.0f}", f"{animais_por_hectare_suportado:.0f}"]
+        'Descrição': ['Produção Total do Solo (ton MS)', 'Carga Animal Atual (UA)', 'Animais/ha', 'Animais/ha Suportado'],
+        'Valor': [f"{fertilidade_solo:.2f}", f"{carga_atual:.2f}", f"{animais_por_hectare_atual:.2f}", f"{suporte_total_fazenda:.2f}"]
     })
     st.dataframe(resultados_df)
-
-    # Gráfico de barras
-    st.subheader('Visualização')
-    fig = go.Figure()
-
-    fig.add_trace(go.Bar(
-        x=['Capacidade de Suporte', 'Carga Animal Atual'],
-        y=[capacidade_suporte, carga_atual],
-        name='UA/ha',
-        marker_color=['#4BB543', '#FF4B4B']
-    ))
-
-    fig.update_layout(
-        title='Comparação entre Capacidade de Suporte e Carga Animal Atual',
-        xaxis_title='Métrica',
-        yaxis_title='UA/ha'
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
