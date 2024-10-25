@@ -55,7 +55,7 @@ if st.button('Calcular'):
     carga_atual = (num_animais * peso_medio)
     animais_por_hectare_atual = num_animais / area_efetiva
 
-producao_total = calcular_suporte_ha(fertilidade_selecionada, area_efetiva)
+    producao_total = calcular_suporte_ha(fertilidade_selecionada, area_efetiva)
 
     # Exibição dos resultados
     st.subheader('Resultado')
