@@ -67,11 +67,15 @@ if st.button('Calcular'):
     st.write(f"O valor do suporte total é de {suporte_total_fazenda:.2f} animais/ha")
     
     if animais_suportados > suporte_total_fazenda:
-        st.warning(f"O número de animais está inadequado para o pasto. Há um excesso de {(animais_suportados * area_efetiva) - (suporte_total_fazenda * area_efetiva):.2f} animais a pasto.")
+        excesso_animais = animais_suportados - suporte_total_fazenda
+        st.warning(f"O número de animais está inadequado para o pasto. Há um excesso de {excesso_animais:.2f} animais de até {peso_medio:.2f} KG, o que pode levar ao sobrepastoreio.")
         st.write("Recomendação: Considere reduzir o número de animais ou aumentar a área de pastagem para evitar sobrecarga e degradação do pasto.")
+
     elif animais_suportados < suporte_total_fazenda:
-        st.success(f"O número de animais está adequado ao pasto. Há uma margem para adicionar até {suporte_total_fazenda - animais_suportados:.2f} animais por hectare ou você poderá manter estes animais neste pasto por mais tempo.")
-        st.write("Recomendação: O pasto está sendo subutilizado. Você pode considerar aumentar o número de animais ou reduzir a área de pastagem para otimizar o uso do recurso.")
+        margem_animais = suporte_total_fazenda - animais_suportados
+        st.success(f"O número de animais está adequado ao pasto. Há uma margem para adicionar até {margem_animais:.2f} animais de até {peso_medio:.2f} KG sem comprometer o pasto.")
+        st.write("Recomendação: O pasto está sendo subutilizado. Considere aumentar o número de animais ou ajustar a área de pastagem para um uso mais eficiente.")
+
     else:
         st.success("O número de animais está perfeitamente adequado à capacidade de suporte do pasto.")
     
